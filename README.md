@@ -6,7 +6,7 @@ EFTXplorer (EFTX) is a tool designed to analyze, modify, decompress and convert 
 
 ## Context 📚
 
-Games like the [Emergency Series](https://en.wikipedia.org/wiki/Emergency_(video_game_series)) are using a proprietary texture compression format called "Emergency Format Texture" or ".EFT" for important / critical in-game textures. The games (and their editor modes) can convert Targa Image files (.TGA) to .EFT format, however they cannot (or simply don't have an option to) convert these .EFT textures back to readable .TGA format. The biggest headache here was that you couldn't examine or alter textures unless you had access to the original .TGA file.
+Games like the [Emergency Series](https://en.wikipedia.org/wiki/Emergency_(video_game_series)) are using a proprietary texture compression format called "Emergency Format Texture" or ".EFT" for important / critical in-game textures. The games (and their editor modes) can convert Targa Image files (.TGA) to .EFT format, however they cannot (or simply don't have an option to) convert these .EFT textures back to a readable format. The biggest headache here was that you couldn't examine or alter textures unless you had access to the original .TGA file.
 
 ## Installation 🚀
 #### ➡️ Preliminary Information:
