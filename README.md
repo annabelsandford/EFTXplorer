@@ -21,6 +21,7 @@ EFTXplorer has only been tested on Windows 10 (x86 & x64). As of right now we do
 Go to [releases]() and download the newest version of EFTX. Then run the version right for you.
 ## Features ✨
 ![EFTXplorer Screenshot 1](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/animation.gif)
+
 Explanation / list of features from top to bottom, left to right:
 
 1️⃣ Action Menu:
