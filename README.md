@@ -62,7 +62,7 @@ Jean-Luc Mackail ([Twitter > @FuzzyQuills](https://twitter.com/FuzzyQuills))
 - The brain behind all this. EFTX wouldn't be here without him. He's the best (I love him <3)
 
 Annabel Jocelyn Sandford ([Twitter > @annie_sandford](https://twitter.com/annie_sandford))
-- Me. Nothing to say lol.
+- Me. Nothing to say lol. C# / .NET wrapper, came up with a few good ideas
 
 ## License 📜
 [GNU AFFERO GENERAL PUBLIC LICENSE 3.0 (AGPL)](https://www.gnu.org/licenses/agpl-3.0.txt)
