@@ -35,7 +35,7 @@ Explanation / list of features from top to bottom, left to right:
   - **Import \*.eft** - The same as the "Import" button in the Action Menu. Lets you import any given .EFT format file.
   - **Clear** - Clears EFTX. Also removes any temporary files and sweeps the cache.
 - **Preview** - Shows a thumbnail / preview of the imported .EFT format file.
-- **Edit** - Nonfunctional. Relict.
+- **Edit** - Nonfunctional. Will be removed in future versions.
 
 3️⃣ Console Interface:
 - **Console** - Shows everything EFTX is doing. Highly useful to find if something is not working correctly.
@@ -47,6 +47,13 @@ Explanation / list of features from top to bottom, left to right:
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 Please make sure to update tests as appropriate.
 You are allowed to use code as per our license. We urge you to read it if you plan on using or improving our code. 
+
+## Credits ✏️
+Jean-Luc Mackail ([Twitter > @FuzzyQuills](https://twitter.com/FuzzyQuills))
+- The brain behind all this. EFTX wouldn't be here without him. He's the best (I love him <3)
+
+Annabel Jocelyn Sandford ([Twitter > @annie_sandford](https://twitter.com/annie_sandford))
+- Me. Nothing to say lol.
 
 ## License 📜
 [GNU AFFERO GENERAL PUBLIC LICENSE 3.0 (AGPL)](https://www.gnu.org/licenses/agpl-3.0.txt)
