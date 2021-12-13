@@ -1,6 +1,6 @@
 # ![EFTXplorer](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/eftx-git.png)
 
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/annabelsandford/EFTXplorer/graphs/commit-activity)[![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
+[![Version 1.1](https://img.shields.io/badge/Version-1.1-blueviolet)](https://img.shields.io/badge/Version-1.1-blueviolet) [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/annabelsandford/EFTXplorer/graphs/commit-activity)
 
 EFTXplorer (EFTX) is a tool designed to analyze, modify, decompress and convert Emergency Format Texture files (.EFT texture files) back to an easily readable and editable format (eg. bitmaps).
 
@@ -38,6 +38,8 @@ Explanation / list of features from top to bottom, left to right:
   - **Import \*.eft** - The same as the "Import" button in the Action Menu. Lets you import any given .EFT format file.
   - **Clear** - Clears EFTX. Also removes any temporary files and sweeps the cache.
 - **Preview** - Shows a thumbnail / preview of the imported .EFT format file.
+- **_Right-clicking Preview_** - Right-clicking the "Preview" panel reveales a context menu with the following option:
+  - **Rotate Image**  - Rotates the image 90 degrees. Will affect the export.
 - **Edit** - Nonfunctional. Will be removed in future versions.
 
 3️⃣ Console Interface:
@@ -45,6 +47,10 @@ Explanation / list of features from top to bottom, left to right:
 
 ![EFTXplorer Screenshot 2](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/eftx_2.PNG)
 
+## Task list / Bucket list
+- [X] Fix 512x512 chunk stream
+- [ ] Fix stream artifacts
+- [ ] Fix upside down output
 
 ## Contributing ✏️
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
