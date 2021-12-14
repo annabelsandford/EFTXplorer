@@ -378,11 +378,13 @@ namespace EFTXplorer
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ClearFunction();
+
             // Create a new instance of the Form2 class
             about aboutForm = new about();
 
             // Show the settings form
-            aboutForm.Show();
+            aboutForm.ShowDialog();
         }
 
         private void rotateImageToolStripMenuItem_Click(object sender, EventArgs e)
