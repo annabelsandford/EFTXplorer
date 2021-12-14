@@ -50,11 +50,11 @@ Explanation / list of features from top to bottom, left to right:
 ## Known issues with EFTXplorer:
 - [ ] Some EFT files have the tiles in the wrong order when imported.
 - [ ] All EFT files bigger than 512x512 have weird seams.
-- [X] Importing an EFT file then clicking "About" results in EFTXplorer crashing with an exception related to the tmp bitmap
+- [X] (Fixed 1.2) Importing an EFT file then clicking "About" results in EFTXplorer crashing with an exception related to the tmp bitmap
 - [ ] (Fixes pending) memory leak in EFT loading: the pointer with the RGBA/BGRA data from load_eft_file_rgba/bgra isn't freed after use
 - [ ] (Fixes pending) Several memory leaks in load_eft_file_rgba/bgra
 - [ ] (WINE specific) the update checker fails to work
-- [ ] The update checker reports there's an update when there isn't.
+- [X] The update checker reports there's an update when there isn't.
 
 ## Contributing ✏️
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
