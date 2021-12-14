@@ -48,7 +48,7 @@ Explanation / list of features from top to bottom, left to right:
 ![EFTXplorer Screenshot 2](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/eftx_2.PNG)
 
 ## Known issues with EFTXplorer:
-- [ ] Some EFT files have the tiles in the wrong order when imported.
+- [ ] Some EFT files have the tiles in the wrong order when imported (Especially Emergency 3 .EFT's)
 - [ ] All EFT files bigger than 512x512 have weird seams.
 - [X] (Fixed 1.2) Importing an EFT file then clicking "About" results in EFTXplorer crashing with an exception related to the tmp bitmap
 - [ ] (Fixes pending) memory leak in EFT loading: the pointer with the RGBA/BGRA data from load_eft_file_rgba/bgra isn't freed after use
