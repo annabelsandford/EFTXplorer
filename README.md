@@ -1,6 +1,6 @@
 # ![EFTXplorer](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/eftx-git.png)
 
-[![Version 1.1](https://img.shields.io/badge/Version-1.1-blueviolet)](https://img.shields.io/badge/Version-1.1-blueviolet) [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/annabelsandford/EFTXplorer/graphs/commit-activity)
+[![Version 1.2](https://img.shields.io/badge/Version-1.2-blueviolet)](https://img.shields.io/badge/Version-1.1-blueviolet) [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/annabelsandford/EFTXplorer/graphs/commit-activity)
 
 EFTXplorer (EFTX) is a tool designed to analyze, modify, decompress and convert Emergency Format Texture files (.EFT texture files) back to an easily readable and editable format (eg. bitmaps).
 
@@ -40,7 +40,10 @@ Explanation / list of features from top to bottom, left to right:
 - **Preview** - Shows a thumbnail / preview of the imported .EFT format file.
 - **_Right-clicking Preview_** - Right-clicking the "Preview" panel reveales a context menu with the following option:
   - **Rotate Image**  - Rotates the image 90 degrees. Will affect the export.
-- **Edit** - Nonfunctional. Will be removed in future versions.
+- **Adjust** - EFTX General Adjustment Window
+  - **Rotate Image**  - Rotates the image 90 degrees like above.
+  - **Scramble**  - Parses the EFT like in 1.1 and vice-versa. Can help with incorrectly parsed files.
+  - **Save Console**  - Saves the entire output of the Console Interface to a temporary text file.
 
 3️⃣ Console Interface:
 - **Console** - Shows everything EFTX is doing. Highly useful to find if something is not working correctly.
@@ -48,13 +51,12 @@ Explanation / list of features from top to bottom, left to right:
 ![EFTXplorer Screenshot 2](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/eftx_2.PNG)
 
 ## Known issues with EFTXplorer:
-- [ ] Some EFT files have the tiles in the wrong order when imported (Especially Emergency 3 .EFT's)
-- [ ] All EFT files bigger than 512x512 have weird seams.
-- [X] (Fixed 1.2) Importing an EFT file then clicking "About" results in EFTXplorer crashing with an exception related to the tmp bitmap
-- [ ] (Fixes pending) memory leak in EFT loading: the pointer with the RGBA/BGRA data from load_eft_file_rgba/bgra isn't freed after use
-- [ ] (Fixes pending) Several memory leaks in load_eft_file_rgba/bgra
+- [X] (Fixed 1.2) ~~Some EFT files have the tiles in the wrong order when imported (Especially Emergency 3 .EFT's)~~
+- [X] (Fixed 1.2) ~~All EFT files bigger than 512x512 have weird seams.~~
+- [X] (Fixed 1.2) ~~Importing an EFT file then clicking "About" results in EFTXplorer crashing with an exception related to the tmp bitmap~~
+- [X] (Fixes 1.2) ~~memory leak in EFT loading: the pointer with the RGBA/BGRA data from load_eft_file_rgba/bgra isn't freed after use~~
+- [X] (Fixes 1.2) ~~Several memory leaks in load_eft_file_rgba/bgra~~
 - [ ] (WINE specific) the update checker fails to work
-- [X] The update checker reports there's an update when there isn't.
 
 ## Contributing ✏️
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
