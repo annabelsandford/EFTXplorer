@@ -48,7 +48,7 @@ Explanation / list of features from top to bottom, left to right:
 3️⃣ Console Interface:
 - **Console** - Shows everything EFTX is doing. Highly useful to find if something is not working correctly.
 
-![EFTXplorer Screenshot 2](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/1.22.PNG)
+![EFTXplorer Screenshot 2](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/1.22.gif)
 
 ## Known issues with EFTXplorer:
 - [X] (Fixed 1.2) ~~Some EFT files have the tiles in the wrong order when imported (Especially Emergency 3 .EFT's)~~
