@@ -56,8 +56,9 @@ namespace EFTXplorer
             this.exportImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.dimensionBox = new System.Windows.Forms.ComboBox();
+            this.adjust_rotate = new System.Windows.Forms.Button();
+            this.adjust_scramble = new System.Windows.Forms.Button();
+            this.adjust_console = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -310,31 +311,45 @@ namespace EFTXplorer
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.button1);
-            this.groupBox5.Controls.Add(this.dimensionBox);
+            this.groupBox5.Controls.Add(this.adjust_console);
+            this.groupBox5.Controls.Add(this.adjust_scramble);
+            this.groupBox5.Controls.Add(this.adjust_rotate);
             this.groupBox5.Location = new System.Drawing.Point(538, 26);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(100, 188);
             this.groupBox5.TabIndex = 11;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Edit";
+            this.groupBox5.Text = "Adjust";
             // 
-            // button1
+            // adjust_rotate
             // 
-            this.button1.Location = new System.Drawing.Point(6, 47);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(90, 49);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Flip X / Y";
-            this.button1.UseVisualStyleBackColor = true;
+            this.adjust_rotate.Location = new System.Drawing.Point(6, 18);
+            this.adjust_rotate.Name = "adjust_rotate";
+            this.adjust_rotate.Size = new System.Drawing.Size(88, 35);
+            this.adjust_rotate.TabIndex = 1;
+            this.adjust_rotate.Text = "Rotate Image";
+            this.adjust_rotate.UseVisualStyleBackColor = true;
+            this.adjust_rotate.Click += new System.EventHandler(this.adjust_rotate_Click);
             // 
-            // dimensionBox
+            // adjust_scramble
             // 
-            this.dimensionBox.FormattingEnabled = true;
-            this.dimensionBox.Location = new System.Drawing.Point(6, 19);
-            this.dimensionBox.Name = "dimensionBox";
-            this.dimensionBox.Size = new System.Drawing.Size(90, 21);
-            this.dimensionBox.TabIndex = 0;
+            this.adjust_scramble.Location = new System.Drawing.Point(6, 59);
+            this.adjust_scramble.Name = "adjust_scramble";
+            this.adjust_scramble.Size = new System.Drawing.Size(88, 35);
+            this.adjust_scramble.TabIndex = 2;
+            this.adjust_scramble.Text = "Scramble";
+            this.adjust_scramble.UseVisualStyleBackColor = true;
+            this.adjust_scramble.Click += new System.EventHandler(this.adjust_scramble_Click);
+            // 
+            // adjust_console
+            // 
+            this.adjust_console.Location = new System.Drawing.Point(6, 147);
+            this.adjust_console.Name = "adjust_console";
+            this.adjust_console.Size = new System.Drawing.Size(88, 35);
+            this.adjust_console.TabIndex = 3;
+            this.adjust_console.Text = "Save Console";
+            this.adjust_console.UseVisualStyleBackColor = true;
+            this.adjust_console.Click += new System.EventHandler(this.adjust_console_Click);
             // 
             // Form1
             // 
@@ -399,11 +414,12 @@ namespace EFTXplorer
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.ComboBox dimensionBox;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button adjust_rotate;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem rotateImageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportImageToolStripMenuItem;
+        private System.Windows.Forms.Button adjust_console;
+        private System.Windows.Forms.Button adjust_scramble;
     }
 }
 

@@ -41,6 +41,7 @@ using System.Drawing.Imaging;
 using System.Net.NetworkInformation;
 using System.Net;
 using System.Text.RegularExpressions;
+using TGASharpLib;
 
 namespace EFTXplorer
 {
@@ -48,12 +49,21 @@ namespace EFTXplorer
     {
         // Replace with eft_loader_x86.dll for 32-bit
         [DllImport("eft_loader_x64.dll")]
-        public static extern IntPtr load_eft_file_bgra(string input, out int width, out int height);
+        public static extern IntPtr load_eft_file_bgra(string input, out int width, out int height, bool swapWH);
+        
+        [DllImport("eft_loader_x64.dll")]
+        public static extern void free_eft_memory(IntPtr eft_ptr);
     }
+
+    //public struct eft_loader_512
+    //{
+    //    [DllImport("eft_loader_qf.dll")]
+    //    public static extern IntPtr load_eft_file_bgra(string input, out int width, out int height);
+    //}
 
     public partial class Form1 : Form
     {
-        public string EFTXVersion = "1.1";
+        public string EFTXVersion = "1.2";
         public string EFTXCopyright = "Jean-Luc Mackail and Annabel Jocelyn Sandford";
         public string PCBitVersion = "";
         string EFTXYear = "2021";
@@ -64,6 +74,11 @@ namespace EFTXplorer
         public string RecentOriginalFileName = "";
         string FileExplorerUsed = "";
         public bool FileLoaded = false;
+
+        bool image_scrambling = false;
+        int scramble_count = 0;
+
+        bool is_512_file = false;
 
         public Form1()
         {
@@ -78,6 +93,7 @@ namespace EFTXplorer
             }
             exportToolStripMenuItem.Enabled = false; // Disable Export Menu Item because there's nothing loaded yet
             contextMenuStrip1.Items[0].Enabled = false; contextMenuStrip1.Items[2].Enabled = false; contextMenuStrip2.Items[0].Enabled = false; contextMenuStrip2.Items[1].Enabled = false;
+            adjust_rotate.Enabled = false; adjust_scramble.Enabled = false;
             this.Text = "EFTX " + EFTXVersion; // Match Window Title w version number
 
             consoleBox.AppendText("Analyzing Cache... " + nwln);
@@ -100,7 +116,7 @@ namespace EFTXplorer
         private void Form1_Load(object sender, EventArgs e)
         {
             //MessageBox.Show("Hello");
-            label1.Text = "EFTX Version: " + EFTXVersion + " / Copyright " + EFTXCopyright + " " + EFTXYear;
+            label1.Text = "EFTX Version: " + EFTXVersion + " / Authors: " + EFTXCopyright + " " + EFTXYear;
         }
 
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
@@ -174,9 +190,15 @@ namespace EFTXplorer
         private void ParseImage(string LFEPath)
         {
             long file_length = new System.IO.FileInfo(LFEPath).Length;
-            if (file_length > 1008576)
+            int is_512 = Convert.ToInt32(file_length) / 8;
+            if (is_512 == 16514)
             {
-                MessageBox.Show("We've detected you are about to import a file possibly larger than 10mb. This file may take some time to import, please do not force quit EFTX while importing " + Path.GetFileName(LFEPath), "EFTX Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                is_512_file = true;
+            }
+
+            if (file_length > 26214400)
+            {
+                MessageBox.Show("We've detected you are about to import a file possibly larger than 25 MB. This file may take some time to import, please do not force quit EFTX while importing " + Path.GetFileName(LFEPath), "EFTX Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             consoleBox.AppendText("Try Image.Dispose()... ");
@@ -234,9 +256,41 @@ namespace EFTXplorer
                 int rand_num = rd.Next(0, 9999);
                 string tempFilePath = Path.Combine(Path.GetTempPath(), "tmp.op."+rand_num+".bmp");
                 consoleBox.AppendText("Converting... ");
-                IntPtr pointer = eft_loader.load_eft_file_bgra(LFEPath, out width, out height);
+
+                IntPtr pointer;
+
+                if (is_512_file == true)
+                {
+                    pointer = eft_loader.load_eft_file_bgra(LFEPath, out width, out height, false);
+
+                    scramble_count = 0;
+                    image_scrambling = false;
+                    //is_512_file = false;
+                }
+                else
+                {
+                    if (scramble_count >= 1)
+                    {
+                        scramble_count = 0;
+                        image_scrambling = false;
+                    }
+                    if (image_scrambling == true)
+                    {
+                        pointer = eft_loader.load_eft_file_bgra(LFEPath, out width, out height, false);
+                        image_scrambling = false;
+                        scramble_count++;
+                    }
+                    else
+                    {
+                        pointer = eft_loader.load_eft_file_bgra(LFEPath, out width, out height, true);
+                    }
+                }
+                
+                //IntPtr pointer = eft_loader.load_eft_file_bgra(LFEPath, out width, out height, true);
                 byte[] image_buffer = new byte[width * height * 4];
                 Marshal.Copy(pointer, image_buffer, 0, width * height * 4);
+                eft_loader.free_eft_memory(pointer);
+
                 //MessageBox.Show("W: " + width + " H: " + height);
                 Bitmap bmp = new Bitmap(width, height, PixelFormat.Format32bppRgb);
                 BitmapData bmpData = bmp.LockBits(
@@ -268,6 +322,16 @@ namespace EFTXplorer
             richTextBox1.AppendText("File: " + Path.GetFileName(LFEPath) + nwln + "W: " + width + " H: " + height + nwln + "RGBA EFT/VALID" + nwln);
 
             contextMenuStrip2.Items[0].Enabled = true; contextMenuStrip2.Items[1].Enabled = true; exportToolStripMenuItem.Enabled = true;
+            adjust_rotate.Enabled = true;
+            if (is_512_file == true)
+            {
+                adjust_scramble.Enabled = false;
+                is_512_file = false;
+            }
+            else
+            {
+                adjust_scramble.Enabled = true;
+            }
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -288,6 +352,7 @@ namespace EFTXplorer
                         consoleBox.AppendText(" Catch." + nwln);
                     }
                     contextMenuStrip2.Items[0].Enabled = false; contextMenuStrip2.Items[1].Enabled = false; exportToolStripMenuItem.Enabled = false;
+                    adjust_rotate.Enabled = false; adjust_scramble.Enabled = false;
                     consoleBox.AppendText(nwln + FileExplorerUsed);
                     LoadFileExplorer(FileExplorerUsed);
                     ParseImage(FileExplorerUsed);
@@ -316,6 +381,7 @@ namespace EFTXplorer
                 try
                 {
                     contextMenuStrip2.Items[0].Enabled = false; contextMenuStrip2.Items[1].Enabled = false; exportToolStripMenuItem.Enabled = false;
+                    adjust_rotate.Enabled = false; adjust_scramble.Enabled = false;
                     previewEFT.Image.Dispose();
                     previewEFT.Image = null;
                     richTextBox1.Clear();
@@ -371,26 +437,10 @@ namespace EFTXplorer
             }
         }
 
-        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ClearFunction();
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ClearFunction();
-
-            // Create a new instance of the Form2 class
-            about aboutForm = new about();
-
-            // Show the settings form
-            aboutForm.ShowDialog();
-        }
-
-        private void rotateImageToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RotateImageFunc()
         {
             consoleBox.AppendText(nwln + "Rotating.");
-            
+
             if (previewEFT.Image != null)
             {
                 try
@@ -418,14 +468,36 @@ namespace EFTXplorer
             }
         }
 
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClearFunction();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClearFunction();
+
+            // Create a new instance of the Form2 class
+            about aboutForm = new about();
+
+            // Show the settings form
+            aboutForm.ShowDialog();
+        }
+
+        private void rotateImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RotateImageFunc();
+        }
+
         private void ExportImage(string TempPath)
         {
             try
             {
                 Bitmap bmp = new Bitmap(TempPath);
 
+                bool exportingTarga = false;
                 SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Png Image (.png)|*.png|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf";
+                sfd.Filter = "TARGA Image (.tga)|*.tga|Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|PNG Image (.png)|*.png|Tiff Image (.tiff)|*.tiff|WMF Image (.wmf)|*.wmf";
                 ImageFormat format = ImageFormat.Png;
                 sfd.FileName = System.IO.Path.GetFileNameWithoutExtension(RecentOriginalFileName);
                 if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -433,6 +505,10 @@ namespace EFTXplorer
                     string ext = System.IO.Path.GetExtension(sfd.FileName);
                     switch (ext)
                     {
+                        case ".tga":
+                            //format = ImageFormat.Jpeg;
+                            exportingTarga = true;
+                            break;
                         case ".jpeg":
                             format = ImageFormat.Jpeg;
                             break;
@@ -449,8 +525,16 @@ namespace EFTXplorer
                             format = ImageFormat.Wmf;
                             break;
                     }
-                    consoleBox.AppendText("Exporting " + format + "... ");
-                    bmp.Save(sfd.FileName, format);
+                    if (exportingTarga == false)
+                    {
+                        consoleBox.AppendText("Exporting " + format + "... ");
+                        bmp.Save(sfd.FileName, format);
+                    }
+                    else
+                    {
+                        TGA targa = (TGA)bmp;
+                        targa.Save(sfd.FileName);
+                    }
                     consoleBox.AppendText("Done." + nwln);
                     MessageBox.Show("Successfully exported " + sfd.FileName, "EFTX Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -478,7 +562,6 @@ namespace EFTXplorer
         }
 
 
-
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (previewEFT.Image != null)
@@ -495,7 +578,6 @@ namespace EFTXplorer
         {
             ClearFunction();
             bool internet_connection = false;
-            bool update_found = false;
             try
             {
                 Ping myPing = new Ping();
@@ -506,7 +588,7 @@ namespace EFTXplorer
                 PingReply reply = myPing.Send(host, timeout, buffer, pingOptions);
                 internet_connection = true;
             }
-            catch (Exception a)
+            catch
             {
                 MessageBox.Show("You either are not connected to the internet or the GitHub servers are down. If you have an internet connection and this doesn't work, please try again later.", "EFTX Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -528,7 +610,6 @@ namespace EFTXplorer
                     if (!EFTXVersion.ToString().Equals(latest_version))
                     {
                         // this here isnt the latest version
-                        update_found = true;
                         DialogResult result = MessageBox.Show("We've found an EFTXplorer Update!" + nwln + "This version: " + EFTXVersion.ToString() + "/ New version: " + latest_version + nwln + "Do you want to update?", "EFTX Update", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                         if (result == DialogResult.Yes)
                         {
@@ -596,6 +677,33 @@ namespace EFTXplorer
             }
             
             //MessageBox.Show(e.Node.Text);
+        }
+
+        private void adjust_rotate_Click(object sender, EventArgs e)
+        {
+            RotateImageFunc();
+        }
+
+        private void adjust_scramble_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                image_scrambling = true;
+                FileExplorerImport(Path.GetDirectoryName(FileExplorerUsed), Path.GetFileName(FileExplorerUsed));
+            }
+            catch
+            {
+                // just do absolutely nothing lol
+            }
+        }
+
+        private void adjust_console_Click(object sender, EventArgs e)
+        {
+            Random rd = new Random();
+            int rand_num = rd.Next(0, 9999);
+            string tempFilePath = Path.Combine(Path.GetTempPath(), "eftx_console_" + rand_num + ".txt");
+            File.WriteAllText(tempFilePath, consoleBox.Text);
+            consoleBox.AppendText(nwln + "Log saved to: " + tempFilePath);
         }
     }
 }
