@@ -2,7 +2,7 @@
 
 [![Version 1.2](https://img.shields.io/badge/Version-1.2-blueviolet)](https://img.shields.io/badge/Version-1.1-blueviolet) [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/annabelsandford/EFTXplorer/graphs/commit-activity)
 
-EFTXplorer (EFTX) is a tool designed to analyze, modify, decompress and convert Emergency Format Texture files (.EFT texture files) back to an easily readable and editable format (eg. bitmaps).
+EFTXplorer (EFTX) is a tool designed to analyze, modify, decompress and convert Emergency Format Texture files (.EFT texture files) back to an easily readable and editable format (eg. bitmaps) utilizing [LibEFT](https://github.com/FuzzyQuills/libeft)
 
 ## Context 📚
 
@@ -54,8 +54,9 @@ Explanation / list of features from top to bottom, left to right:
 - [X] (Fixed 1.2) ~~Some EFT files have the tiles in the wrong order when imported (Especially Emergency 3 .EFT's)~~
 - [X] (Fixed 1.2) ~~All EFT files bigger than 512x512 have weird seams.~~
 - [X] (Fixed 1.2) ~~Importing an EFT file then clicking "About" results in EFTXplorer crashing with an exception related to the tmp bitmap~~
-- [X] (Fixes 1.2) ~~memory leak in EFT loading: the pointer with the RGBA/BGRA data from load_eft_file_rgba/bgra isn't freed after use~~
-- [X] (Fixes 1.2) ~~Several memory leaks in load_eft_file_rgba/bgra~~
+- [X] (Fixed 1.2) ~~memory leak in EFT loading: the pointer with the RGBA/BGRA data from load_eft_file_rgba/bgra isn't freed after use~~
+- [X] (Fixed 1.2) ~~Several memory leaks in load_eft_file_rgba/bgra~~
+- [ ] 1.2 DLL not compatible with 32-bit systems
 - [ ] (WINE specific) the update checker fails to work
 
 ## Contributing ✏️
@@ -66,6 +67,7 @@ You are allowed to use code as per our license. We urge you to read it if you pl
 ## Credits ✏️
 Jean-Luc Mackail ([Twitter > @FuzzyQuills](https://twitter.com/FuzzyQuills))
 - The brain behind all this. EFTX wouldn't be here without him. He's the best (I love him <3)
+- [Check out LibEFT it's awesome](https://github.com/FuzzyQuills/libeft)
 
 Annabel Jocelyn Sandford ([Twitter > @annie_sandford](https://twitter.com/annie_sandford))
 - Me. Nothing to say lol. C# / .NET wrapper, came up with a few good ideas
