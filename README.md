@@ -53,8 +53,10 @@ Explanation / list of features from top to bottom, left to right:
 
 Hidden Features:
 - You can drag & drop single .EFT files onto EFTX to import them.
+![EFTXplorer Screenshot 3](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/dragdrop.gif)
 - You can use EFTX as the default software to open .EFT files. Double-clicking them will result in a fullscreen preview window.
 - Opening an .EFT thru double-clicking, then closing the fullscreen preview window will result in EFTX closing. You can right-click the preview window after having double-clicked the .EFT to select "Open in adjust mode".
+![EFTXplorer Screenshot 4](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/preview.gif)
 
 ## Known issues with EFTXplorer:
 - [X] (Fixed 1.2) ~~Some EFT files have the tiles in the wrong order when imported (Especially Emergency 3 .EFT's)~~
