@@ -66,7 +66,7 @@ namespace EFTXplorer
     public partial class Form1 : Form
     {
         static Mutex mutex = new Mutex(true, "{46d34fd4-01c0-4f25-ad3e-447f6abbd8e1}");
-        public string EFTXVersion = "1.3 ALPHA";
+        public string EFTXVersion = "1.3";
         public string EFTXCopyright = "Annabel Jocelyn Sandford and Jean-Luc Mackail";
         public string PCBitVersion = "";
         string EFTXYear = "2021";
