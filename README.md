@@ -1,6 +1,6 @@
 # ![EFTXplorer](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/eftx-git.png)
 
-[![Version 1.2](https://img.shields.io/badge/Version-1.2-blueviolet)](https://img.shields.io/badge/Version-1.1-blueviolet) [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/annabelsandford/EFTXplorer/graphs/commit-activity)
+[![Version 1.3](https://img.shields.io/badge/Version-1.3-blueviolet)](https://img.shields.io/badge/Version-1.1-blueviolet) [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/annabelsandford/EFTXplorer/graphs/commit-activity)
 
 EFTXplorer (EFTX) is a tool designed to analyze, modify, decompress and convert Emergency Format Texture files (.EFT texture files) back to an easily readable and editable format (eg. bitmaps) utilizing [LibEFT](https://github.com/FuzzyQuills/libeft)
 
@@ -41,6 +41,7 @@ Explanation / list of features from top to bottom, left to right:
 - **_Right-clicking Preview_** - Right-clicking the "Preview" panel reveales a context menu with the following option:
   - **Rotate Image**  - Rotates the image 90 degrees. Will affect the export.
 - **Adjust** - EFTX General Adjustment Window
+  - **Large Preview**  - Opens an enlarged preview of the image.
   - **Rotate Image**  - Rotates the image 90 degrees like above.
   - **Scramble**  - Parses the EFT like in 1.1 and vice-versa. Can help with incorrectly parsed files.
   - **Save Console**  - Saves the entire output of the Console Interface to a temporary text file.
@@ -49,6 +50,11 @@ Explanation / list of features from top to bottom, left to right:
 - **Console** - Shows everything EFTX is doing. Highly useful to find if something is not working correctly.
 
 ![EFTXplorer Screenshot 2](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/1.22.gif)
+
+Hidden Features:
+- You can drag & drop single .EFT files onto EFTX to import them.
+- You can use EFTX as the default software to open .EFT files. Double-clicking them will result in a fullscreen preview window.
+- Opening an .EFT thru double-clicking, then closing the fullscreen preview window will result in EFTX closing. You can right-click the preview window after having double-clicked the .EFT to select "Open in adjust mode".
 
 ## Known issues with EFTXplorer:
 - [X] (Fixed 1.2) ~~Some EFT files have the tiles in the wrong order when imported (Especially Emergency 3 .EFT's)~~
