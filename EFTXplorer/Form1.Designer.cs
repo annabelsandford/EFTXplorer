@@ -56,9 +56,10 @@ namespace EFTXplorer
             this.exportImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.adjust_rotate = new System.Windows.Forms.Button();
-            this.adjust_scramble = new System.Windows.Forms.Button();
             this.adjust_console = new System.Windows.Forms.Button();
+            this.adjust_scramble = new System.Windows.Forms.Button();
+            this.adjust_rotate = new System.Windows.Forms.Button();
+            this.adjust_preview = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -311,6 +312,7 @@ namespace EFTXplorer
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.adjust_preview);
             this.groupBox5.Controls.Add(this.adjust_console);
             this.groupBox5.Controls.Add(this.adjust_scramble);
             this.groupBox5.Controls.Add(this.adjust_rotate);
@@ -321,19 +323,19 @@ namespace EFTXplorer
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Adjust";
             // 
-            // adjust_rotate
+            // adjust_console
             // 
-            this.adjust_rotate.Location = new System.Drawing.Point(6, 18);
-            this.adjust_rotate.Name = "adjust_rotate";
-            this.adjust_rotate.Size = new System.Drawing.Size(88, 35);
-            this.adjust_rotate.TabIndex = 1;
-            this.adjust_rotate.Text = "Rotate Image";
-            this.adjust_rotate.UseVisualStyleBackColor = true;
-            this.adjust_rotate.Click += new System.EventHandler(this.adjust_rotate_Click);
+            this.adjust_console.Location = new System.Drawing.Point(6, 142);
+            this.adjust_console.Name = "adjust_console";
+            this.adjust_console.Size = new System.Drawing.Size(88, 35);
+            this.adjust_console.TabIndex = 3;
+            this.adjust_console.Text = "Save Console";
+            this.adjust_console.UseVisualStyleBackColor = true;
+            this.adjust_console.Click += new System.EventHandler(this.adjust_console_Click);
             // 
             // adjust_scramble
             // 
-            this.adjust_scramble.Location = new System.Drawing.Point(6, 59);
+            this.adjust_scramble.Location = new System.Drawing.Point(6, 101);
             this.adjust_scramble.Name = "adjust_scramble";
             this.adjust_scramble.Size = new System.Drawing.Size(88, 35);
             this.adjust_scramble.TabIndex = 2;
@@ -341,15 +343,25 @@ namespace EFTXplorer
             this.adjust_scramble.UseVisualStyleBackColor = true;
             this.adjust_scramble.Click += new System.EventHandler(this.adjust_scramble_Click);
             // 
-            // adjust_console
+            // adjust_rotate
             // 
-            this.adjust_console.Location = new System.Drawing.Point(6, 147);
-            this.adjust_console.Name = "adjust_console";
-            this.adjust_console.Size = new System.Drawing.Size(88, 35);
-            this.adjust_console.TabIndex = 3;
-            this.adjust_console.Text = "Save Console";
-            this.adjust_console.UseVisualStyleBackColor = true;
-            this.adjust_console.Click += new System.EventHandler(this.adjust_console_Click);
+            this.adjust_rotate.Location = new System.Drawing.Point(6, 60);
+            this.adjust_rotate.Name = "adjust_rotate";
+            this.adjust_rotate.Size = new System.Drawing.Size(88, 35);
+            this.adjust_rotate.TabIndex = 1;
+            this.adjust_rotate.Text = "Rotate Image";
+            this.adjust_rotate.UseVisualStyleBackColor = true;
+            this.adjust_rotate.Click += new System.EventHandler(this.adjust_rotate_Click);
+            // 
+            // adjust_preview
+            // 
+            this.adjust_preview.Location = new System.Drawing.Point(6, 19);
+            this.adjust_preview.Name = "adjust_preview";
+            this.adjust_preview.Size = new System.Drawing.Size(88, 35);
+            this.adjust_preview.TabIndex = 4;
+            this.adjust_preview.Text = "Large Preview";
+            this.adjust_preview.UseVisualStyleBackColor = true;
+            this.adjust_preview.Click += new System.EventHandler(this.adjust_preview_Click);
             // 
             // Form1
             // 
@@ -420,6 +432,7 @@ namespace EFTXplorer
         private System.Windows.Forms.ToolStripMenuItem exportImageToolStripMenuItem;
         private System.Windows.Forms.Button adjust_console;
         private System.Windows.Forms.Button adjust_scramble;
+        private System.Windows.Forms.Button adjust_preview;
     }
 }
 

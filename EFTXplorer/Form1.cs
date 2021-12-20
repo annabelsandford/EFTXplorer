@@ -25,6 +25,7 @@
 //!!        ;e?(."$$$$$$$$$$$$$$$$u     "$NJ$$$d"x$$$$$$$$$ 
 
 // Written by Anna (@annie_sandford)
+// I wanna die please send help lmfao
 
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,7 @@ using System.Drawing.Imaging;
 using System.Net.NetworkInformation;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading;
 using TGASharpLib;
 
 namespace EFTXplorer
@@ -63,8 +65,9 @@ namespace EFTXplorer
 
     public partial class Form1 : Form
     {
-        public string EFTXVersion = "1.2";
-        public string EFTXCopyright = "Jean-Luc Mackail and Annabel Jocelyn Sandford";
+        static Mutex mutex = new Mutex(true, "{46d34fd4-01c0-4f25-ad3e-447f6abbd8e1}");
+        public string EFTXVersion = "1.3 ALPHA";
+        public string EFTXCopyright = "Annabel Jocelyn Sandford and Jean-Luc Mackail";
         public string PCBitVersion = "";
         string EFTXYear = "2021";
 
@@ -72,17 +75,20 @@ namespace EFTXplorer
         public string ImportFilePath = "";
         public string LastTempFile = "";
         public string RecentOriginalFileName = "";
-        string FileExplorerUsed = "";
+        public string FileExplorerUsed = "";
         public bool FileLoaded = false;
 
         bool image_scrambling = false;
         int scramble_count = 0;
 
         bool is_512_file = false;
+        public bool is_startup_file = false;
+        string startup_file = "";
 
         public Form1()
         {
             InitializeComponent();
+
             if (Environment.Is64BitOperatingSystem == true)
             {
                 PCBitVersion = "64";
@@ -93,7 +99,7 @@ namespace EFTXplorer
             }
             exportToolStripMenuItem.Enabled = false; // Disable Export Menu Item because there's nothing loaded yet
             contextMenuStrip1.Items[0].Enabled = false; contextMenuStrip1.Items[2].Enabled = false; contextMenuStrip2.Items[0].Enabled = false; contextMenuStrip2.Items[1].Enabled = false;
-            adjust_rotate.Enabled = false; adjust_scramble.Enabled = false;
+            adjust_rotate.Enabled = false; adjust_scramble.Enabled = false; adjust_preview.Enabled = true;
             this.Text = "EFTX " + EFTXVersion; // Match Window Title w version number
 
             consoleBox.AppendText("Analyzing Cache... " + nwln);
@@ -107,16 +113,83 @@ namespace EFTXplorer
             }
             catch (Exception c)
             {
-                MessageBox.Show("Something went terribly wrong." + nwln + "Exception: Could not clear img-cache (" + c + ")" + nwln + "Suggestion: Try running EFTX as an administrator.", "EFTX Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                System.Windows.Forms.Application.Exit();
+                consoleBox.AppendText("> Could not clear cache" + nwln);
+                //MessageBox.Show("Something went terribly wrong." + nwln + "Exception: Could not clear img-cache (" + c + ")" + nwln + "Suggestion: Try running EFTX as an administrator.", "EFTX Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //System.Windows.Forms.Application.Exit();
             }
             consoleBox.AppendText("(: Initialized!"); // c:
+
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                //MessageBox.Show("" + args[1]);
+                is_startup_file = true;
+                startup_file = args[1].ToString();
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             //MessageBox.Show("Hello");
             label1.Text = "EFTX Version: " + EFTXVersion + " / Authors: " + EFTXCopyright + " " + EFTXYear;
+
+            this.AllowDrop = true;
+            this.DragDrop += Form1_DragDrop;
+            this.DragEnter += Form1_DragEnter;
+
+            if (is_startup_file == true)
+            {
+                try
+                {
+                    if (Path.GetExtension(startup_file.ToLower()).Equals(".eft"))
+                    {
+                        FileAttributes attr = File.GetAttributes(startup_file);
+                        if ((attr & FileAttributes.Directory) != FileAttributes.Directory)
+                        {
+                            FileExplorerImport(Path.GetDirectoryName(startup_file), Path.GetFileName(startup_file));
+                            startup_file = "";
+                            PreviewFunction();
+                            is_startup_file = false;
+                        }
+                    }
+                }
+                catch
+                {
+                    // do nothing lol
+                }
+            }
+        }
+        private void Form1_DragEnter(object sender, DragEventArgs e)
+        {
+            //consoleBox.AppendText("DragEnter!");
+            e.Effect = DragDropEffects.Copy;
+        }
+        private void Form1_DragDrop(object sender, DragEventArgs e)
+        {
+            // start here
+
+            try
+            {
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files.Length == 1)
+                {
+                    string[] fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+                    //MessageBox.Show("" + fileList[0]);
+                    if (Path.GetExtension(fileList[0].ToLower()).Equals(".eft"))
+                    {
+                        FileAttributes attr = File.GetAttributes(fileList[0]);
+                        if ((attr & FileAttributes.Directory) != FileAttributes.Directory)
+                        {
+                            FileExplorerImport(Path.GetDirectoryName(fileList[0]), Path.GetFileName(fileList[0]));
+                            //MessageBox.Show("JustPath: " + Path.GetDirectoryName(fileList[0]) + nwln + "JustName: " + Path.GetFileName(fileList[0]));
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // pretend like nothing happened
+            }
         }
 
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
@@ -319,7 +392,7 @@ namespace EFTXplorer
             RecentOriginalFileName = Path.GetFileName(LFEPath);
 
             richTextBox1.Clear();
-            richTextBox1.AppendText("File: " + Path.GetFileName(LFEPath) + nwln + "W: " + width + " H: " + height + nwln + "RGBA EFT/VALID" + nwln);
+            richTextBox1.AppendText("File: " + Path.GetFileName(LFEPath) + nwln + "W: " + width + " H: " + height + nwln + previewEFT.Image.PixelFormat.ToString() + nwln);
 
             contextMenuStrip2.Items[0].Enabled = true; contextMenuStrip2.Items[1].Enabled = true; exportToolStripMenuItem.Enabled = true;
             adjust_rotate.Enabled = true;
@@ -532,8 +605,25 @@ namespace EFTXplorer
                     }
                     else
                     {
-                        TGA targa = (TGA)bmp;
+                        consoleBox.AppendText(nwln + "Intercept: TGA export det.");
+                        var bmp32 = new Bitmap(bmp.Width, bmp.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                        using (var gr = Graphics.FromImage(bmp32))
+                            gr.DrawImage(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
+                        Random rand = new Random();
+                        string tempFilePath32 = Path.Combine(Path.GetTempPath(), "tmp.op." + rand.Next(100, 99999) + ".bmp");
+                        bmp32.Save(tempFilePath32);
+
+                        Bitmap bmp32Temp = new Bitmap(tempFilePath32);
+                        consoleBox.AppendText(nwln + "STATUS: " + bmp32Temp.PixelFormat.ToString() + nwln + "Saving TGA...");
+
+                        TGA targa = (TGA)bmp32Temp;
                         targa.Save(sfd.FileName);
+                        consoleBox.AppendText(" Done!"+ nwln + "Deleting temp files... ");
+
+                        bmp32.Dispose();
+                        bmp32Temp.Dispose();
+                        File.Delete(tempFilePath32);
+                        GC.Collect();
                     }
                     consoleBox.AppendText("Done." + nwln);
                     MessageBox.Show("Successfully exported " + sfd.FileName, "EFTX Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -545,6 +635,7 @@ namespace EFTXplorer
             catch (Exception e)
             {
                 MessageBox.Show("Something went terribly wrong." + nwln + "Exception: Cannot export bitmap (" + e + ")" + nwln + "Suggestion: Try running EFTX as an administrator.", "EFTX Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SaveLogfile();
                 System.Windows.Forms.Application.Exit();
             }
         }
@@ -655,6 +746,31 @@ namespace EFTXplorer
             }
         }
 
+        private void SaveLogfile()
+        {
+            Random rd = new Random();
+            int rand_num = rd.Next(0, 9999);
+            string tempFilePath = Path.Combine(Path.GetTempPath(), "eftx_console_" + rand_num + ".txt");
+            File.WriteAllText(tempFilePath, consoleBox.Text);
+            consoleBox.AppendText(nwln + "Log saved to: " + tempFilePath);
+        }
+
+        private void PreviewFunction()
+        {
+            if (!LastTempFile.Equals(""))
+            {
+                string ExePath = System.Reflection.Assembly.GetEntryAssembly().Location;
+                string JustExePath = Path.GetDirectoryName(ExePath);
+                File.Copy(LastTempFile, Path.GetDirectoryName(ExePath) + "\\" + Path.GetFileName(LastTempFile) + ".dup.bmp");
+                previewEFT.Image.Dispose();
+                previewEFT.Image = null;
+                //MessageBox.Show("" + Path.GetDirectoryName(ExePath) + "\\" + Path.GetFileName(LastTempFile) + ".dup.bmp");
+                large_preview PreviewForm = new large_preview(Path.GetDirectoryName(ExePath) + "\\" + Path.GetFileName(LastTempFile) + ".dup.bmp", FileExplorerUsed);
+                PreviewForm.ShowDialog();
+                FileExplorerImport(Path.GetDirectoryName(FileExplorerUsed), Path.GetFileName(FileExplorerUsed));
+            }  
+        }
+
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             //MessageBox.Show(e.Node.Text);
@@ -699,11 +815,12 @@ namespace EFTXplorer
 
         private void adjust_console_Click(object sender, EventArgs e)
         {
-            Random rd = new Random();
-            int rand_num = rd.Next(0, 9999);
-            string tempFilePath = Path.Combine(Path.GetTempPath(), "eftx_console_" + rand_num + ".txt");
-            File.WriteAllText(tempFilePath, consoleBox.Text);
-            consoleBox.AppendText(nwln + "Log saved to: " + tempFilePath);
+            SaveLogfile();
+        }
+
+        private void adjust_preview_Click(object sender, EventArgs e)
+        {
+            PreviewFunction();
         }
     }
 }
