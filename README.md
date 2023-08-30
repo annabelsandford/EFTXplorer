@@ -1,6 +1,6 @@
 # ![EFTXplorer](https://github.com/annabelsandford/EFTXplorer/raw/main/readme_img/eftx-git.png)
 
-[![Version 1.3](https://img.shields.io/badge/Version-1.3-blueviolet)](https://img.shields.io/badge/Version-1.1-blueviolet) [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/annabelsandford/EFTXplorer/graphs/commit-activity)
+[![Version 1.3](https://img.shields.io/badge/Version-1.3-blueviolet)](https://img.shields.io/badge/Version-1.1-blueviolet)[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/annabelsandford/EFTXplorer/graphs/commit-activity)
 
 EFTXplorer (EFTX) is a tool designed to analyze, modify, decompress and convert Emergency Format Texture files (.EFT texture files) back to an easily readable and editable format (eg. bitmaps) utilizing [LibEFT](https://github.com/FuzzyQuills/libeft)
 
